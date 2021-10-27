@@ -4,7 +4,7 @@ const { uploadCSV } = require('../controllers/csv-controller.js')
 const uploads3 = require('../utilities/upload-aws')
 
 // Upload CSV To AWS S3 and Parse - then save to DB
-router.post('/uploadtest', async (req, res) => {
+router.post('/upload', async (req, res) => {
   uploads3.single('file')(req, res, async (err) => {
     if (req.file == undefined) return res.status(400).json({ error: "Please upload a CSV file!" })
     if (err) return res.status(404).json({ error: err.message })
