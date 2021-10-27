@@ -13,7 +13,7 @@ router.post('/upload', async (req, res) => {
 
     const uploadCSVResults = await uploadCSV(fileName)
 
-    if (uploadCSVResults.errors) return res.status(404).json(uploadCSVResults.errors)
+    if (uploadCSVResults.errors) return res.status(400).json(uploadCSVResults.errors)
 
     return res.status(uploadCSVResults.status).json({ success: uploadCSVResults.message })
   })

@@ -51,7 +51,7 @@ const UploadCSVForm = () => {
         window.location.reload()
       })
       .catch(err => {
-        console.log('CSV File upload error frontend', err)
+        console.log('CSV File upload error frontend', err.message)
         setOpen(true)
         setErrorMsg('Cannot upload File.')
       })
