@@ -1,17 +1,22 @@
 const express = require('express')
 const router = express.Router()
 const { uploadCSV } = require('../controllers/csv-controller.js')
-const upload = require('../middleware/upload')
+const uploads3 = require('../utilities/upload-aws')
 
-// Upload a CSV file with customer data
-router.post('/upload', upload.single('file'), async (req, res) => {
-  if (req.file == undefined) return res.status(400).send("Please upload a CSV file!")
+// Upload CSV To AWS S3 and Parse - then save to DB
+router.post('/uploadtest', async (req, res) => {
+  uploads3.single('file')(req, res, async (err) => {
+    if (req.file == undefined) return res.status(400).json({ error: "Please upload a CSV file!" })
+    if (err) return res.status(404).json({ error: err.message })
 
-  const { filename } = req.file
-  let path = __basedir + "/resources/static/assets/uploads/" + filename
-  let uploadCSVResults = await uploadCSV(path, filename)
+    const fileName = req.file.key
 
-  return res.status(uploadCSVResults.status).send(uploadCSVResults.message)
-});
+    const uploadCSVResults = await uploadCSV(fileName)
+
+    if (uploadCSVResults.errors) return res.status(404).json(uploadCSVResults.errors)
+
+    return res.status(uploadCSVResults.status).json({ success: uploadCSVResults.message })
+  })
+})
 
 module.exports = router;

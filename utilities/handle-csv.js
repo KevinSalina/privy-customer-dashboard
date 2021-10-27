@@ -1,38 +1,25 @@
-const models = require('../models')
-const fs = require('fs')
-const csv = require('fast-csv')
+const csvtojsonV2 = require("csvtojson");
 
-function CsvException(message) {
-  this.message = message;
-  this.status = 400
-}
+const handleCSVTest = async (stream) => {
 
-const handleCSV = async (path, filename) => {
-  const parsingPromise = new Promise((resolve, reject) => {
-    let customers = []
+  errors = {}
 
-    fs.createReadStream(path)
-      .pipe(csv.parse({ headers: ['email', 'firstName', 'lastName', 'phone', 'city', 'state', 'lastOrderPrice', 'lastOrderDate'], renameHeaders: true }))
-      .on('error', (error) => { throw error.message })
-      .on('data', (row) => { customers.push(row) })
-      .on('end', async () => {
-        try {
-          if (customers.length === 0) throw new CsvException('Please upload CSV File with correct format')
-          const bulkCreateResults = await models.Customer.bulkCreate(customers, { validate: true })
-          resolve({
-            message: 'File succesfully uploaded - ' + filename,
-            status: 200
-          })
-        } catch (error) {
-          reject({
-            error: true,
-            message: error.message || error,
-            status: error.status || 500
-          })
-        }
-      })
+  const jsonArr = await csvtojsonV2({
+    noheader: false,
+    headers: ['email', 'firstName', 'lastName', 'phone', 'city', 'state', 'lastOrderPrice', 'lastOrderDate']
   })
-  return parsingPromise
+    .fromStream(stream)
+    .on('error', (err) => errors.parsingErr = err.message)
+
+
+  if (jsonArr.length === 0) errors.invalidCSV = 'Please upload valid CSV file'
+  else if (!Object.keys(jsonArr[0]).length === 8) errors.invalidCSV = 'Please upload valid CSV file'
+
+  return {
+    errors,
+    success: !Object.keys(errors).length > 0,
+    customerArr: !Object.keys(errors).length > 0 ? jsonArr : null
+  }
 }
 
-module.exports = handleCSV
+module.exports = handleCSVTest
