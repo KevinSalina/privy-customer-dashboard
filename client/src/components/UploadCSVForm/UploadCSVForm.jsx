@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Box } from '@mui/material'
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import Toast from '../Toast/Toast'
 import './uploadcsvform.css'
 
 
 const UploadCSVForm = () => {
+
   const [selectedFile, setSelectedFile] = useState(null)
-  const [fileNameDisplay, setFileNameDisplay] = useState('Upload CSV File')
-  const [open, setOpen] = useState(false)
-  const [errorMssg, setErrorMsg] = useState('')
+  const [fileNameDisplay, setFileNameDisplay] = useState('No CSV File Selected')
+  const [tstMsg, setTstMsg] = useState('')
 
   const uploadFile = e => {
     console.log(e.target.files[0])
@@ -20,41 +18,17 @@ const UploadCSVForm = () => {
     setSelectedFile(e.target.files[0])
   }
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
-
   const sendFile = () => {
+    setTstMsg('')
     const data = new FormData()
     data.append('file', selectedFile)
     axios.post('/api/csv/upload', data)
       .then(res => {
-        console.log(res.statusText)
-        window.location.reload()
+        setTstMsg('File Uploaded!')
+        window.location.reload(false)
       })
       .catch(err => {
-        console.log('CSV File upload error frontend', err.message)
-        console.log(err.response)
-        setOpen(true)
-        setErrorMsg('Cannot upload File.')
+        setTstMsg(err.response.data.error)
       })
   }
 
@@ -72,7 +46,7 @@ const UploadCSVForm = () => {
             Browse
           </Button>
         </label>
-        <Box className='form-filename' sx={{ typography: 'subtitle2' }}>{fileNameDisplay}</Box>
+        <Box className='form-filename' sx={{ typography: 'subtitle2', minWidth: "100px" }}>{fileNameDisplay}</Box>
 
         <Button
           style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}
@@ -84,13 +58,7 @@ const UploadCSVForm = () => {
           Upload
         </Button>
       </Box>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={errorMssg}
-        action={action}
-      />
+      {tstMsg.length > 0 ? <Toast message={tstMsg} isOpen={tstMsg.length > 0} /> : null}
     </React.Fragment>
 
 

@@ -25,7 +25,6 @@ To use live demo, please download a sample customer CSV file <a href="/resources
 * Node
 * Twilio Account (trial or paid)
 
-
 ##### Steps
 * Fork & Clone main repo to local machine.
 * **Install Dependencies**
@@ -36,23 +35,18 @@ To use live demo, please download a sample customer CSV file <a href="/resources
 * **Setup MySQL Database**
 ```
 CREATE DATABASE [database];
-
 CREATE USER '[username]'@'localhost' IDENTIFIED BY '[password]';
-
 GRANT ALL ON [database].* TO '[username]'@'localhost';
-
 ```
 * Set database enviromental variables:
     * Create a .env file in main directory. Use .env-sample file as guide.
-    
     ```
-    DB_USERNAME
-    DB_PASSWORD
-    DB_DATABASE
-    DB_HOST
-    DB_DIALECT  
+    DB_USERNAME='[DB_USERNAME]'
+    DB_PASSWORD='[DB_PASSWORD]'
+    DB_DATABASE='[DB_DATABASE]'
+    DB_HOST='[DB_HOST]'
+    DB_DIALECT=[DB_DIALECT] 
     ```
-
 * Run Sequelize migration to create tables in MySQL.
     * From root directory run `npm run dev:migrate`
 
@@ -60,12 +54,22 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
     * Head to [Twilio's Website](https://www.twilio.com/try-twilio) to sign up for a trial account.
     * Once account is made, follow [this](https://www.twilio.com/blog/send-bulk-sms-twilio-node-js-html) guide on how to set up new Twilio Messaging Service (scroll down to multi pack section of guide).
     * Set up Twilio enviromental variables in .env file. Tokens can be found in your Twilio Console.
-
         ```
-        TWILIO_ACCOUNT_SID
-        TWILIO_AUTH_TOKEN
-        TWILIO_MESSAGING_SERVICE_SID
+        TWILIO_ACCOUNT_SID=[TWILIO_ACCOUNT_SID]
+        TWILIO_AUTH_TOKEN=[TWILIO_AUTH_TOKEN]
+        TWILIO_MESSAGING_SERVICE_SID=[TWILIO_MESSAGING_SERVICE_SID]
         ``` 
+* **Set up AWS S3 Bucket**
+    * Head to [AWS](https://aws.amazon.com/) to sign in or create account
+    * Generate new AWS Access and Secret Key
+        * Click Username in top right > My Security Credentials > Access keys (access key ID and secret access key) > Create New Access Key
+    * Add AWS Keys & Bucket name to .env file
+        ```
+        AWS_ACCESS_KEY_ID=[AWS_ACCESS_KEY_ID]
+        AWS_SECRET_KEY=[AWS_SECRET_KEY]
+        AWS_BUCKET='[AWS_BUCKET]'
+        ```
+    * From root directory run `node utilites/create-bucket.js`. This will create a S3 bucket to store CSV files. You can change region in create-bucket.js file if needed.
 
 * **Start App**
     * Run `npm run dev` in root directory to start up server and client side!
@@ -75,6 +79,8 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
         Email,First Name,Last Name,Phone number,City,State,Last Order Price,Last Order Date
         ```
     * If using Twilio trial account - phone numbers must be verified in Twilio Console in order to send messages. Read more [here](https://www.twilio.com/docs/usage/tutorials/how-to-use-your-free-trial-account).
+
+    
 ## Built with
 
 ### Technologies/Tools
@@ -89,10 +95,13 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
 * Twilio API
 * Material UI
 * Heroku
+* AWS S3
 
 ### Third party code
 * Multer
-* Fast-csv
+* MulterS3
+* csvtojson
+* AWS SDK
 * Dotenv
 * Concurrently
 
@@ -113,6 +122,7 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
 * React / React State (Hooks, useState, useEffect).
 * Seperation of concerns.
 * Working with front end React library (Material UI).
+* Storing files in AWS S3 Bucket.
 * Parsing CSV data to JSON using npm packages.
 * Creating RESTful API routes.
 * Working with third party API (Twilio)

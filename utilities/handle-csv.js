@@ -12,8 +12,8 @@ const handleCSVTest = async (stream) => {
     .on('error', (err) => errors.parsingErr = err.message)
 
 
-  if (jsonArr.length === 0) errors.invalidCSV = 'Please upload valid CSV file'
-  else if (!Object.keys(jsonArr[0]).length === 8) errors.invalidCSV = 'Please upload valid CSV file'
+  if (jsonArr.length === 0) errors.error = 'Please upload valid CSV file.'
+  else if (!Object.keys(jsonArr[0]).length === 8) errors.error = 'Please upload valid CSV file.'
 
   return {
     errors,
