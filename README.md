@@ -24,6 +24,7 @@ To use live demo, please download a sample customer CSV file <a href="/resources
 * MySQL
 * Node
 * Twilio Account (trial or paid)
+* AWS Account
 
 ##### Steps
 * Fork & Clone main repo to local machine.
@@ -40,6 +41,7 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
 ```
 * Set database enviromental variables:
     * Create a .env file in main directory. Use .env-sample file as guide.
+
     ```
     DB_USERNAME='[DB_USERNAME]'
     DB_PASSWORD='[DB_PASSWORD]'
@@ -54,16 +56,18 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
     * Head to [Twilio's Website](https://www.twilio.com/try-twilio) to sign up for a trial account.
     * Once account is made, follow [this](https://www.twilio.com/blog/send-bulk-sms-twilio-node-js-html) guide on how to set up new Twilio Messaging Service (scroll down to multi pack section of guide).
     * Set up Twilio enviromental variables in .env file. Tokens can be found in your Twilio Console.
+
         ```
         TWILIO_ACCOUNT_SID=[TWILIO_ACCOUNT_SID]
         TWILIO_AUTH_TOKEN=[TWILIO_AUTH_TOKEN]
         TWILIO_MESSAGING_SERVICE_SID=[TWILIO_MESSAGING_SERVICE_SID]
         ``` 
 * **Set up AWS S3 Bucket**
-    * Head to [AWS](https://aws.amazon.com/) to sign in or create account
+    * Head to [AWS](https://aws.amazon.com/) to sign in or create account.
     * Generate new AWS Access and Secret Key
         * Click Username in top right > My Security Credentials > Access keys (access key ID and secret access key) > Create New Access Key
     * Add AWS Keys & Bucket name to .env file
+
         ```
         AWS_ACCESS_KEY_ID=[AWS_ACCESS_KEY_ID]
         AWS_SECRET_KEY=[AWS_SECRET_KEY]
@@ -75,6 +79,7 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
     * Run `npm run dev` in root directory to start up server and client side!
     * Download example CSV file from above for formatting reference.
     * CSV files must be formated as below to work:
+    
         ```
         Email,First Name,Last Name,Phone number,City,State,Last Order Price,Last Order Date
         ```
