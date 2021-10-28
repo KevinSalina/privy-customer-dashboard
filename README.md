@@ -7,7 +7,8 @@ This projects aims to help small ecommerce stores by implementing a tool to help
 ### Live Demo
 
 **Please allow app 30 seconds to load from cold start**
-**Live demo:** [here](https://privy-kevinsalina.herokuapp.com/) 
+
+[**Live demo**](https://privy-kevinsalina.herokuapp.com/) 
 
 To use live demo, please download a sample customer CSV file <a href="/resources/static/assets/mocks/CSV-customers - Sheet1.csv" download>here</a>.
 
@@ -79,7 +80,7 @@ GRANT ALL ON [database].* TO '[username]'@'localhost';
     * Run `npm run dev` in root directory to start up server and client side!
     * Download example CSV file from above for formatting reference.
     * CSV files must be formated as below to work:
-    
+
         ```
         Email,First Name,Last Name,Phone number,City,State,Last Order Price,Last Order Date
         ```
