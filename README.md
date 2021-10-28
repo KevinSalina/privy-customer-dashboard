@@ -10,7 +10,7 @@ This projects aims to help small ecommerce stores by implementing a tool to help
 
 [**Live demo**](https://privy-kevinsalina.herokuapp.com/) 
 
-To use live demo, please download a sample customer CSV file <a href="/resources/static/assets/mocks/CSV-customers - Sheet1.csv" download>here</a>.
+To use live demo, please download a sample customer CSV file <a href="/resources/mocks/customer-data.csv" download>here</a>.
 
 * Once the app loads, you can upload the CSV data, and the customers will appear in the data grid.
 * You can search and filter through customers, making seletions by clicking the box on the the left side of each row.
