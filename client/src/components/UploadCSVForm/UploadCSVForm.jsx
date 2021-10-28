@@ -24,7 +24,6 @@ const UploadCSVForm = () => {
     data.append('file', selectedFile)
     axios.post('/api/csv/upload', data)
       .then(res => {
-        setTstMsg('File Uploaded!')
         window.location.reload(false)
       })
       .catch(err => {
