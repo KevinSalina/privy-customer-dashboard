@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 global.__basedir = __dirname
+const path = require('path')
 const db = require('./config/database')
 const models = require('./models')
 
@@ -25,7 +26,7 @@ db.authenticate()
   .catch((err) => console.log('error!'))
 
 // Reset Customer Table
-db.sync({ force: true }).then(() => {
+db.sync().then(() => {
   console.log('Database Synced');
 });
 

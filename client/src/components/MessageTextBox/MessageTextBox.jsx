@@ -24,7 +24,7 @@ const MessageTextBox = (props) => {
       .then(res => {
         console.log(res.statusText)
         // Redirect to Message Log Page
-        history.push('/message-logs', { isRedirect: true })
+        history.push('/message/logs', { isRedirect: true })
       })
       .catch(err => {
         console.log('Error sending text message', err)
