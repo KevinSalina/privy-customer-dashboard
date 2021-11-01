@@ -6,13 +6,15 @@ import { DataGrid } from '@mui/x-data-grid'
 import Toast from "../Toast/Toast";
 import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 
-const MessageSelectionTable = (props) => {
+const MessageSelectionTable = ({ selectedCustomers }) => {
   const [messages, setMessages] = useState([])
   const [selectedMessage, setSelectedMessage] = useState(null)
   const [tstMsg, setTstMsg] = useState('')
+
+  let history = useHistory()
 
   useEffect(() => {
     fetchMessages()
@@ -37,9 +39,25 @@ const MessageSelectionTable = (props) => {
     })
   }
 
+  const sendMessage = () => {
+    const data = { message: selectedMessage.text, selectedCustomers }
+    console.log(data)
+    axios.post('/api/message', data)
+      .then(res => {
+        console.log(res.statusText)
+        // Redirect to Message Log Page
+        history.push('/message/logs', { isRedirect: true })
+      })
+      .catch(err => {
+        console.log('Error sending text message', err)
+        setTstMsg('Cannot send text. Please try again.')
+      })
+  }
+
   const handleNoSelectedCustomer = async () => {
+    console.log(selectedMessage)
     await setTstMsg('')
-    !props.selectedCustomer ? setTstMsg('No Customers Selected') : null
+    !selectedCustomers ? setTstMsg('No Customers Selected. Please go back to home page and try again.') : null
   }
 
   const updatedSelectedMsg = (selection) => {
@@ -73,12 +91,12 @@ const MessageSelectionTable = (props) => {
           <Button
             variant="outlined"
             disabled={selectedMessage ? false : true}
-            component={props.selectedCustomers ? Link : null}
-            to={{
-              pathname: selectedMessage ? '/message' : '#',
-              state: { selectedMessage }
-            }}
-            onClick={handleNoSelectedCustomer}
+            // component={props.selectedCustomers ? Link : null}
+            // to={{
+            //   pathname: selectedMessage ? '/message' : '#',
+            //   state: { selectedMessage }
+            // }}
+            onClick={selectedMessage && selectedCustomers ? sendMessage : handleNoSelectedCustomer}
           >
             Send Selected Message
           </Button>
@@ -87,7 +105,7 @@ const MessageSelectionTable = (props) => {
             component={Link}
             to={{
               pathname: '/message',
-              state: props.selectedCustomer
+              state: { selectedCustomers }
             }}
           >
             Craft New Message

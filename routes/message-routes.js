@@ -18,8 +18,8 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { message, selectedCustomers } = req.body
 
-  if (!message) return res.status(404).json({ error: 'Please provide a message to send' })
-  if (selectedCustomers.length <= 0) return res.status(400).json({ error: 'No customers selected' })
+  if (!message) return res.status(400).json({ error: 'Please provide a message to send' })
+  if (!selectedCustomers) return res.status(400).json({ error: 'No customers selected' })
 
   const newMessage = await saveMessage(message)
   const results = await sendMessage(newMessage, selectedCustomers)

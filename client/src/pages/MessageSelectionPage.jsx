@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom'
 const MessageSelectionPage = () => {
   const data = useLocation()
   const selectedCustomers = data.state ? data.state.selectedCustomers : null
-  console.log(data.state)
 
   return (
     <React.Fragment>

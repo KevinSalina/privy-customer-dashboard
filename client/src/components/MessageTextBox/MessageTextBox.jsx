@@ -1,13 +1,13 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { TextField, Button } from '@mui/material';
 import Toast from '../Toast/Toast';
 
-const MessageTextBox = (props) => {
+const MessageTextBox = ({ selectedCustomers }) => {
   const [messageText, setMessageText] = useState('')
   const [tstMsg, setTstMsg] = useState('')
-  const [open, setOpen] = useState(false)
 
   let history = useHistory()
 
@@ -16,9 +16,9 @@ const MessageTextBox = (props) => {
   }
 
   const sendMessage = () => {
-    setOpen(false)
+    setTstMsg('')
 
-    const data = { message: messageText, selectedCustomers: props.selectedCustomers }
+    const data = { message: messageText, selectedCustomers }
     console.log(data)
     axios.post('/api/message', data)
       .then(res => {
@@ -29,8 +29,12 @@ const MessageTextBox = (props) => {
       .catch(err => {
         console.log('Error sending text message', err)
         setTstMsg('Cannot send text. Please try again.')
-        setOpen(true)
       })
+  }
+
+  const handleNoSelectedCustomer = async () => {
+    await setTstMsg('')
+    !selectedCustomers ? setTstMsg('No Customers Selected. Please go back to home page and try again.') : null
   }
 
   return (
@@ -51,12 +55,12 @@ const MessageTextBox = (props) => {
       <Button
         sx={{ width: '100%', maxWidth: '500px' }}
         variant="contained"
-        onClick={sendMessage}
+        onClick={selectedCustomers ? sendMessage : handleNoSelectedCustomer}
         disabled={messageText.length <= 0}
       >
         Send Message
       </Button>
-      {open ? <Toast message={tstMsg} isOpen={open} /> : null}
+      {tstMsg.length > 0 ? <Toast message={tstMsg} isOpen={tstMsg.length > 0} /> : null}
     </React.Fragment >
   );
 };

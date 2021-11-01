@@ -14,7 +14,6 @@ const CustomerTable = () => {
   }, [])
 
   const fetchCustomers = async () => {
-    setTstMsg('')
     try {
       const fetch = await axios.get(`/api/customers/`)
       setCustomers(fetch.data)

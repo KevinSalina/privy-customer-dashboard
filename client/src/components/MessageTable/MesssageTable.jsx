@@ -13,12 +13,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/material/styles';
 import { Box } from "@mui/system";
-import { Button } from "@mui/material";
 import Toast from "../Toast/Toast";
 
 const MessageTable = () => {
   const [messages, setMessages] = useState([])
   const [open, setOpen] = useState(false)
+  // eslint-disable-next-line no-unused-vars
   const [tstMsg, setTstMsg] = useState('')
 
   useEffect(() => {
@@ -29,23 +29,6 @@ const MessageTable = () => {
   const fetchMessages = async () => {
     const fetch = await axios.get(`/api/message`)
     setMessages(fetch.data)
-  }
-
-  const sendMessage = async (messageData) => {
-    setOpen(false)
-    try {
-      const data = { message: messageData.text, selectedCustomers: messageData.customers }
-      const result = await axios.post('/api/message', data)
-      console.log(result)
-      setOpen(true)
-      setTstMsg('Message Sent!')
-      fetchMessages()
-    } catch (err) {
-      console.log('Error sending text message', err.message)
-      setOpen(true)
-      setTstMsg('Cannot send message.')
-
-    }
   }
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -83,14 +66,6 @@ const MessageTable = () => {
           <StyledTableCell align="center" component="th" scope="row">{row.id}</StyledTableCell>
           <StyledTableCell >{row.text}</StyledTableCell>
           <StyledTableCell align="center">{row.createdAt.substring(0, 10)}</StyledTableCell>
-          <StyledTableCell align="center">
-            <Button
-              variant="outlined"
-              onClick={() => sendMessage(row)}
-            >
-              RESEND
-            </Button>
-          </StyledTableCell>
         </StyledTableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -139,7 +114,6 @@ const MessageTable = () => {
               <StyledTableCell width='15%' align="center">Message Id</StyledTableCell>
               <StyledTableCell width='40%' >Message</StyledTableCell>
               <StyledTableCell width='20%' sx={{ minWidth: '150px' }} align="center">Date</StyledTableCell>
-              <StyledTableCell width='20%' align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
