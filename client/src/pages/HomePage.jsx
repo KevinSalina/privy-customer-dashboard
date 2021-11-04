@@ -17,6 +17,9 @@ const HomePage = () => {
           </Typography>
           <UploadCSVForm />
         </Box>
+        <Typography mb={2} color='primary' variant="subtitle1" fontWeight='bold'>
+          Select customers below to message
+        </Typography>
         <CustomerTable />
       </Box>
     </React.Fragment>

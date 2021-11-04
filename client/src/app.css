@@ -23,3 +23,9 @@ body{
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+.top-content.message-selection-page{
+  align-items: flex-start;
+  justify-content: start;
+  flex-direction: column;
+}

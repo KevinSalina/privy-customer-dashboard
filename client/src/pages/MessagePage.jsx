@@ -8,9 +8,9 @@ import { Typography } from '@mui/material';
 
 const MessagePage = () => {
   const data = useLocation()
-  const { selectedCustomers } = data.state
+  const selectedCustomers = data.state ? data.state.selectedCustomers : null
 
-  console.log(selectedCustomers)
+  console.log(data.state)
 
   return (
     <React.Fragment>

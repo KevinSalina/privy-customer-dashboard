@@ -2,11 +2,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-// Components
+// Page Component
 import HomePage from "./pages/HomePage";
 import MessagePage from "./pages/MessagePage";
 import ErrorPage from "./pages/ErrorPage";
 import MessageLogPage from "./pages/MessageLogPage";
+import MessageSelectionPage from "./pages/MessageSelectionPage"
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/message" component={MessagePage} />
-          <Route path="/message-logs" component={MessageLogPage} />
+          <Route exact path="/message/selection" component={MessageSelectionPage} />
+          <Route exact path="/message/logs" component={MessageLogPage} />
+          <Route exact path="/message" component={MessagePage} />
           <Route component={ErrorPage} />
         </Switch>
       </Router>

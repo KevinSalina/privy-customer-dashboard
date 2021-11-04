@@ -16,7 +16,7 @@ const TableActionsButtons = ({ selectedCustomers, deleteCustomers }) => {
         disabled={selectedCustomers.length > 0 ? false : true}
         component={Link}
         to={{
-          pathname: selectedCustomers.length > 0 ? '/message' : '#',
+          pathname: selectedCustomers.length > 0 ? '/message/selection' : '#',
           state: { selectedCustomers }
         }}
       >
@@ -26,7 +26,7 @@ const TableActionsButtons = ({ selectedCustomers, deleteCustomers }) => {
         variant="outlined"
         component={Link}
         to={{
-          pathname: '/message-logs'
+          pathname: '/message/logs'
         }}
       >
         Message Logs

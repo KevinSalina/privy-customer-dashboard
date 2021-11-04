@@ -7,7 +7,6 @@ import TableActionsButtons from "../TableActionButtons/TableActionsButtons";
 const CustomerTable = () => {
   const [customers, setCustomers] = useState([])
   const [selectedCustomers, setSelectedCustomers] = useState([])
-  const [open, setOpen] = useState(false)
   const [tstMsg, setTstMsg] = useState('')
 
   useEffect(() => {
@@ -20,22 +19,19 @@ const CustomerTable = () => {
       setCustomers(fetch.data)
     } catch (err) {
       console.log(err)
-      setOpen(true)
       setTstMsg('Cannot fetch customers from DB.')
     }
   }
 
   const deleteCustomers = async () => {
     try {
-      setOpen(false)
+      setTstMsg('')
       const data = { selectedCustomers }
       await axios.delete('/api/customers/', { data })
-      setOpen(true)
       setTstMsg('Customer(s) deleted.')
       fetchCustomers()
     } catch (err) {
       console.log(err)
-      setOpen(true)
       setTstMsg('Cannot delete customers.')
     }
   }
@@ -73,7 +69,7 @@ const CustomerTable = () => {
         {/* Table Action Buttons */}
         <TableActionsButtons selectedCustomers={selectedCustomers} deleteCustomers={deleteCustomers} />
         {/* Toast Notificaiotn on customer delete */}
-        {open ? <Toast message={tstMsg} isOpen={open} /> : null}
+        {tstMsg.length > 0 ? <Toast message={tstMsg} isOpen={tstMsg.length > 0} /> : null}
       </div>
     </>
   )
